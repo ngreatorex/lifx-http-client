@@ -6,6 +6,7 @@ angular.module('myApp', [
   'ngRoute',
   'myApp.filters',
   'myApp.services',
+  'myApp.version',
   'myApp.directives',
   'myApp.controllers'
 ]).

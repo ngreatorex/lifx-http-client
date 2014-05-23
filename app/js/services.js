@@ -8,8 +8,6 @@ var LIFX_URL = 'http://lifx-http.local:3000/'
 // In this case it is a simple value service.
 var module = angular.module('myApp.services', ['ngResource']);
 
-module.value('version', '0.1');
-
 module.factory('Bulb', ['$resource',
   function($resource) {
     return $resource(LIFX_URL + 'lights/:bulbId', {}, {
