@@ -34,9 +34,9 @@ scm_version()
 			if atag="`git describe 2>/dev/null`"; then
 				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
 
-			# If we don't have a tag at all we print -g{commitish}.
+			# If we don't have a tag at all we print g{commitish}.
 			else
-				printf '%s%s' -g $head
+				printf '%s%s' g $head
 			fi
 		fi
 
