@@ -49,7 +49,7 @@ scm_version()
 
 
 		# Check for uncommitted changes
-		if git diff-index --name-only HEAD >/dev/null; then
+		if ! git diff-index --quiet HEAD; then
 			printf '%s' -dirty
 		fi
 
