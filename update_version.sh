@@ -16,14 +16,13 @@ scm_version()
 	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
 	   head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
 
+		if tag="`git describe --abbrev=0 2>/dev/null`"; then
+			printf '%s' $tag
+		fi
 
 		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
 		# it, because this version is defined in the top level Makefile.
-		if [ -n "`git describe --exact-match 2>/dev/null`" ]; then
-			if tag="`git describe 2>/dev/null`"; then
-				printf '%s' $tag
-			fi
-		else
+		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
 			# If only the short version is requested, don't bother
 			# running further git commands
 			if $short; then
