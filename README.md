@@ -8,9 +8,9 @@ It is designed to provide a pretty front-end to the [lifx-http](/chendo/lifx-htt
 
 After cloning the repository, you should run:
 
-``
+```
 npm install
-``
+```
 
 ## Running
 
@@ -21,5 +21,5 @@ npm start
 ```
 
 For prolonged use, consider running a production server such as Apache. A sample configuration
-is provided in [apache/lifx-http-client.conf].
+is provided in `apache/lifx-http-client.conf`.
 
