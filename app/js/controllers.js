@@ -4,6 +4,26 @@
 
 var controllers = angular.module('myApp.controllers', []);
 
+controllers.controller('NavCtrl', ['$scope', '$location', '$routeParams', 'Bulb', 
+  function($scope, $location, $routeParams, Bulb) {
+    $scope.bulbs = Bulb.query();
+
+    $scope.navClass = function(page, bulbId) {
+      var currentRoute = $location.path().split('/')[1] || 'bulbs';
+      console.log('Current route is ' + currentRoute);
+
+      if (bulbId && $routeParams.bulbId) {
+        return page === currentRoute && bulbId === $routeParams.bulbId ? 'focus' : ''; 
+      } else {
+        return page === currentRoute ? 'active' : '';
+      }
+    }
+
+    $scope.goTo = function(page) {
+      $location.url('/' + page);
+    };
+}]);
+
 controllers.controller('BulbListCtrl', ['$scope', 'Bulb', function($scope, Bulb) {
   $scope.bulbs = Bulb.query();
 }]);

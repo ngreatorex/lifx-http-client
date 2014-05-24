@@ -4,6 +4,7 @@
 // Declare app level module which depends on filters, and services
 angular.module('myApp', [
   'ngRoute',
+  'ui.bootstrap',
   'myApp.filters',
   'myApp.services',
   'myApp.version',
@@ -13,6 +14,6 @@ angular.module('myApp', [
 config(['$routeProvider', 
   function($routeProvider) {
     $routeProvider.when('/bulbs', {templateUrl: 'partials/bulb-list.html', controller: 'BulbListCtrl'});
-    $routeProvider.when('/bulbs/:bulbId', {templateUrl: 'partials/bulb-detail.html', controller: 'BulbDetailCtrl'});
+    $routeProvider.when('/bulb/:bulbId', {templateUrl: 'partials/bulb-detail.html', controller: 'BulbDetailCtrl'});
     $routeProvider.otherwise({redirectTo: '/bulbs'});
 }]);
