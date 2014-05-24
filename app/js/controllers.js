@@ -49,7 +49,6 @@ controllers.controller('BulbDetailCtrl', ['$scope', '$routeParams', '$filter', '
     $scope.BulbState = BulbState;
 
     $scope.getBulb = function() {
-      console.log('In getBulb: have ' + BulbState.bulbs.length);
       for (var i=0; i < BulbState.bulbs.length; i++) {
         var bulb = BulbState.bulbs[i];
         if (bulb.id === $routeParams.bulbId)
