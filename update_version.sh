@@ -63,6 +63,6 @@ scm_version()
 
 res=$(scm_version)
 echo "angular.module('myApp.version', []).value('version', '$res');" > $VERSION_FILE
-
+echo "Updated $VERSION_FILE to $res"
 
 
