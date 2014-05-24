@@ -1,7 +1,7 @@
 {
   "name": "lifx-http-client",
   "description": "An AngularJS based client for lifx-http REST API",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/ngreatorex/lifx-http-client",
   "license": "MIT",
   "private": true,
