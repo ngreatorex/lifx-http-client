@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default table-responsive">
   <table class="table">
     <tr>
       <th>Label</th>
@@ -8,7 +8,7 @@
     </tr>
     <tr ng-repeat="bulb in BulbState.bulbs">
       <td><a href="#/bulb/{{bulb.id}}">{{bulb.label}}</a></td>
-      <td>
+      <td style="min-width: 120px;">
         <div class="btn-group">
           <button class="btn btn-default" ng-model="bulb.on" btn-radio="true" ng-click="callOn(bulb.id)">On</button>
           <button class="btn btn-default" ng-model="bulb.on" btn-radio="false" ng-click="callOff(bulb.id)">Off</button>
