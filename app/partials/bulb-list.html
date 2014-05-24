@@ -1,5 +1,21 @@
-<ul>
-  <li ng-repeat="bulb in bulbs">
-    <a href="#/bulb/{{bulb.id}}">{{bulb.label}}</a>
-  </li>
-</ul>
+<div class="panel panel-default">
+  <table class="table">
+    <tr>
+      <th>Label</th>
+      <th>State</th>
+      <th>Colour</th>
+      <th>Last Seen</th>
+    </tr>
+    <tr ng-repeat="bulb in BulbState.bulbs">
+      <td><a href="#/bulb/{{bulb.id}}">{{bulb.label}}</a></td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-default" ng-model="bulb.on" btn-radio="true" ng-click="callOn(bulb.id)">On</button>
+          <button class="btn btn-default" ng-model="bulb.on" btn-radio="false" ng-click="callOff(bulb.id)">Off</button>
+        </div>
+      </td>
+      <td>{{bulb.color | json}}</td>
+      <td>{{bulb.last_seen | date:'medium' }} ({{bulb.seconds_since_seen | number:2 }} seconds ago)</td>
+    </tr>
+  </table>
+</div>

@@ -1,8 +1,8 @@
-<h2>{{bulb.label}}</h2>
-<p>Light is {{bulb.on | onoff}}.</p>
-<pre>{{bulb}}</pre>
+<h2>{{getBulb().label}}</h2>
+<p>Light is {{getBulb().on | onoff}}.</p>
+<pre>{{getBulb() | json}}</pre>
 <div class="btn-group">
-<button class="btn btn-default" ng-model="bulb.on" btn-radio="true" ng-click="callOn()">On</button>
-<button class="btn btn-default" ng-model="bulb.on" btn-radio="false" ng-click="callOff()">Off</button>
+<button class="btn btn-default" ng-model="getBulb().on" btn-radio="true" ng-click="callOn()">On</button>
+<button class="btn btn-default" ng-model="getBulb().on" btn-radio="false" ng-click="callOff()">Off</button>
 </div>
 <button class="btn btn-default" ng-click="callToggle()">Toggle</button>

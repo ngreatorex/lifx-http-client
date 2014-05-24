@@ -4,16 +4,17 @@
 
 var controllers = angular.module('myApp.controllers', []);
 
-controllers.controller('NavCtrl', ['$scope', '$location', '$routeParams', 'Bulb', 
-  function($scope, $location, $routeParams, Bulb) {
-    $scope.bulbs = Bulb.query();
+controllers.controller('NavCtrl', ['$scope', '$location', '$routeParams', 'BulbState', 
+  function($scope, $location, $routeParams, BulbState) {
+    $scope.BulbState = BulbState;
+
+    BulbState.refresh();
 
     $scope.navClass = function(page, bulbId) {
       var currentRoute = $location.path().split('/')[1] || 'bulbs';
-      console.log('Current route is ' + currentRoute);
 
       if (bulbId && $routeParams.bulbId) {
-        return page === currentRoute && bulbId === $routeParams.bulbId ? 'focus' : ''; 
+        return page === currentRoute && bulbId === $routeParams.bulbId ? 'active' : ''; 
       } else {
         return page === currentRoute ? 'active' : '';
       }
@@ -22,33 +23,56 @@ controllers.controller('NavCtrl', ['$scope', '$location', '$routeParams', 'Bulb'
     $scope.goTo = function(page) {
       $location.url('/' + page);
     };
-}]);
+  }
+]);
 
-controllers.controller('BulbListCtrl', ['$scope', 'Bulb', function($scope, Bulb) {
-  $scope.bulbs = Bulb.query();
-}]);
+controllers.controller('BulbListCtrl', ['$scope', '$timeout', 'BulbState', 'Bulb',  
+  function($scope, $timeout, BulbState, Bulb) {
+    $scope.BulbState = BulbState;
 
-controllers.controller('BulbDetailCtrl', ['$scope', '$routeParams', 'Bulb', 
-  function($scope, $routeParams, Bulb) {
-    $scope.bulb = Bulb.get({bulbId: $routeParams.bulbId}, function (bulb) {
-      $scope.state = bulb.state;
-    });
+    $scope.callOn = function(bulbId) {
+      Bulb.on({bulbId: bulbId}, {}, function (bulb) {
+        //BulbState.forceRefresh();
+      });
+    };
+
+    $scope.callOff = function(bulbId) {
+      Bulb.off({bulbId: bulbId}, {}, function (bulb) {
+        //BulbState.forceRefresh();
+      });
+    };
+  }
+]);
+
+controllers.controller('BulbDetailCtrl', ['$scope', '$routeParams', '$filter', 'BulbState', 'Bulb', 
+  function($scope, $routeParams, $filter, BulbState, Bulb) {
+    $scope.BulbState = BulbState;
+
+    $scope.getBulb = function() {
+      console.log('In getBulb: have ' + BulbState.bulbs.length);
+      for (var i=0; i < BulbState.bulbs.length; i++) {
+        var bulb = BulbState.bulbs[i];
+        if (bulb.id === $routeParams.bulbId)
+          return bulb;
+      }
+    };
 
     $scope.callOn = function() {
-      $scope.bulb.$on({bulbId: $routeParams.bulbId}, function (bulb) {
-        $scope.bulb = bulb;
+      Bulb.on({bulbId: $routeParams.bulbId}, {}, function (bulb) {
+        //BulbState.forceRefresh();
       });
     };
 
     $scope.callOff = function() {
-      $scope.bulb.$off({bulbId: $routeParams.bulbId}, function (bulb) {
-        $scope.bulb = bulb;
+      Bulb.off({bulbId: $routeParams.bulbId}, {}, function (bulb) {
+        //BulbState.forceRefresh();
       });
     };
 
     $scope.callToggle = function() {
-      $scope.bulb.$toggle({bulbId: $routeParams.bulbId}, function (bulb) {
-        $scope.bulb = bulb;
+      Bulb.toggle({bulbId: $routeParams.bulbId}, {}, function (bulb) {
+        BulbState.forceRefresh();
       });
     };
-  }]);
+  }
+]);

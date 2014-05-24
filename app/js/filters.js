@@ -12,4 +12,14 @@ angular.module('myApp.filters', []).
     return function(bool) {
       return bool ? 'ON' : 'OFF';
     }
+  }).
+  filter('refreshText', function() {
+    return function(counter) {
+      if (counter === -1)
+        return 'Auto refresh disabled';
+      else if (counter === 0)
+        return 'Refreshing...';
+      else
+        return 'Refreshing in ' + counter / 1000 + ' seconds';
+    };
   });
