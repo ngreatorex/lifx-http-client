@@ -1,8 +1,8 @@
 <h2>{{getBulb().label}}</h2>
-<p>Light is {{getBulb().on | onoff}}.</p>
+<p>Light is {{getBulb().power | uppercase}}.</p>
 <pre>{{getBulb() | json}}</pre>
 <div class="btn-group">
-<button class="btn btn-default" ng-model="getBulb().on" btn-radio="true" ng-click="callOn()">On</button>
-<button class="btn btn-default" ng-model="getBulb().on" btn-radio="false" ng-click="callOff()">Off</button>
+<button class="btn btn-default" ng-model="getBulb().power" btn-radio="'on'" ng-click="callOn()">On</button>
+<button class="btn btn-default" ng-model="getBulb().power" btn-radio="'off'" ng-click="callOff()">Off</button>
 </div>
 <button class="btn btn-default" ng-click="callToggle()">Toggle</button>

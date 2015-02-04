@@ -7,3 +7,5 @@ tmp
 .idea
 *~
 app/js/version.js
+app/js/token.js
+

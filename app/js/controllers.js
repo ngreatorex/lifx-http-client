@@ -26,26 +26,22 @@ controllers.controller('NavCtrl', ['$scope', '$location', '$routeParams', 'BulbS
   }
 ]);
 
-controllers.controller('BulbListCtrl', ['$scope', '$timeout', 'BulbState', 'Bulb',  
-  function($scope, $timeout, BulbState, Bulb) {
+controllers.controller('BulbListCtrl', ['$scope', '$timeout', 'BulbState',  
+  function($scope, $timeout, BulbState) {
     $scope.BulbState = BulbState;
 
     $scope.callOn = function(bulbId) {
-      Bulb.on({bulbId: bulbId}, {}, function (bulb) {
-        //BulbState.forceRefresh();
-      });
+        BulbState.on(bulbId);
     };
 
     $scope.callOff = function(bulbId) {
-      Bulb.off({bulbId: bulbId}, {}, function (bulb) {
-        //BulbState.forceRefresh();
-      });
+        BulbState.off(bulbId);
     };
   }
 ]);
 
-controllers.controller('BulbDetailCtrl', ['$scope', '$routeParams', '$filter', 'BulbState', 'Bulb', 
-  function($scope, $routeParams, $filter, BulbState, Bulb) {
+controllers.controller('BulbDetailCtrl', ['$scope', '$routeParams', '$filter', 'BulbState',  
+  function($scope, $routeParams, $filter, BulbState) {
     $scope.BulbState = BulbState;
 
     $scope.getBulb = function() {
@@ -57,21 +53,18 @@ controllers.controller('BulbDetailCtrl', ['$scope', '$routeParams', '$filter', '
     };
 
     $scope.callOn = function() {
-      Bulb.on({bulbId: $routeParams.bulbId}, {}, function (bulb) {
-        //BulbState.forceRefresh();
-      });
+      BulbState.on($routeParams.bulbId);
     };
 
     $scope.callOff = function() {
-      Bulb.off({bulbId: $routeParams.bulbId}, {}, function (bulb) {
-        //BulbState.forceRefresh();
-      });
+      BulbState.off($routeParams.bulbId);
     };
 
     $scope.callToggle = function() {
-      Bulb.toggle({bulbId: $routeParams.bulbId}, {}, function (bulb) {
-        BulbState.forceRefresh();
-      });
+      BulbState.toggle($routeParams.bulbId)
+        .then(function (bulb) {
+          BulbState.forceRefresh();
+        });
     };
   }
 ]);

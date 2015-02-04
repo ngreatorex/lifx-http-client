@@ -10,8 +10,8 @@
       <td><a href="#/bulb/{{bulb.id}}">{{bulb.label}}</a></td>
       <td style="min-width: 120px;">
         <div class="btn-group">
-          <button class="btn btn-default" ng-model="bulb.on" btn-radio="true" ng-click="callOn(bulb.id)">On</button>
-          <button class="btn btn-default" ng-model="bulb.on" btn-radio="false" ng-click="callOff(bulb.id)">Off</button>
+          <button class="btn btn-default" ng-model="bulb.power" btn-radio="'on'" ng-click="callOn(bulb.id)">On</button>
+          <button class="btn btn-default" ng-model="bulb.power" btn-radio="'off'" ng-click="callOff(bulb.id)">Off</button>
         </div>
       </td>
       <td>{{bulb.color | json}}</td>

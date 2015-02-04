@@ -1,35 +1,28 @@
 'use strict';
 
-/* Services */
-
-var LIFX_URL = 'http://lifx-http.local:3000/'
-
-// Demonstrate how to register services
-// In this case it is a simple value service.
 var module = angular.module('myApp.services', ['ngResource']);
 
-module.factory('Bulb', ['$resource',
-  function($resource) {
-    return $resource(LIFX_URL + 'lights/:bulbId', {}, {
-      query: {method:'GET', params:{bulbId:''}, isArray:true, timeout:10000},
-      toggle: {method:'PUT', url: LIFX_URL + 'lights/:bulbId/toggle'},
-      on: {method:'PUT', url: LIFX_URL + 'lights/:bulbId/on'},
-      off: {method:'PUT', url: LIFX_URL + 'lights/:bulbId/off'}
-     });
-  }
-]);
+module.factory('BulbState', ['$timeout', '$q', 'LiFXSwagger',
+  function ($timeout, $q, LiFXPromise) {
+    var API = null;
 
-module.factory('BulbState', ['$timeout', 'Bulb',
-  function ($timeout, Bulb) {
     var BulbState = {
       autoRefresh: 5000,
       refreshTimer: 0,
       bulbs: []
     };
 
+    LiFXPromise.then(function(res) {
+        API = res;
+	BulbState.refresh();
+    });
+
     var timerInterval = 1000;
 
     BulbState.refresh = function() {
+      if (API == null) {
+        return;
+      }
       if (BulbState.refreshTimer == -1) {
         return;
       } else if (BulbState.refreshTimer > timerInterval) {
@@ -39,26 +32,83 @@ module.factory('BulbState', ['$timeout', 'Bulb',
         BulbState.refreshTimer = 0;
         var that = BulbState;
 
-        Bulb.query(function (bulbs) {
-          that.bulbs = bulbs;
-
-          that.refreshTimer = that.autoRefresh;
-          $timeout(that.refresh, timerInterval);
-        }, function(error) {
-          console.log(error);
-          that.refreshTimer = -1;
+        API.GET_v1beta1_lights_format({selector: 'all'}, function(result) {
+          console.log('Result is:', result.obj);
+          if (result.obj) {
+            that.bulbs = result.obj;
+            that.refreshTimer = that.autoRefresh;
+            $timeout(that.refresh, timerInterval);
+          } else {
+            that.refreshTimer = -1;
+          }
         });
       }
     };
 
     BulbState.forceRefresh = function() { 
-      Bulb.query(function (bulbs) {
-        BulbState.bulbs = bulbs;
+      var that = BulbState;
 
-        BulbState.refreshTimer = BulbState.autoRefresh;
-      }, function(error) {
-        console.log(error);
+      API.GET_v1beta1_lights_format({selector: 'all'}, function(result) {
+        console.log('Result is:', result);
+        if (result.obj) {
+          that.bulbs = result.obj;
+          that.refreshTimer = that.autoRefresh;
+        } else {
+          that.refreshTimer = -1;
+        }
       });
+    };
+
+    BulbState.on = function(bulbId) {
+        var deferred = $q.defer();
+
+        API.PUT_v1beta1_lights_selector_power_format({
+            selector: bulbId,
+            state: 'on',
+            duration: 0.1
+        }, function(result) {
+            if (result.obj) {
+                deferred.resolve(result.obj);
+            } else {
+                deferred.reject(result);
+            }
+        });
+
+        return deferred.promise;
+    };
+
+    BulbState.off = function(bulbId) {
+        var deferred = $q.defer();
+
+        API.PUT_v1beta1_lights_selector_power_format({
+            selector: bulbId,
+            state: 'off',
+            duration: 0.1
+        }, function(result) {
+            if (result.obj) {
+                deferred.resolve(result.obj);
+            } else {
+                deferred.reject(result);
+            }
+        });
+
+        return deferred.promise;
+    };
+
+    BulbState.toggle = function(bulbId) {
+        var deferred = $q.defer();
+
+        API.PUT_v1beta1_lights_selector_toggle_format({
+            selector: bulbId
+        }, function(result) {
+            if (result.obj) {
+                deferred.resolve(result.obj);
+            } else {
+                deferred.reject(result);
+            }
+        });
+
+        return deferred.promise;
     };
 
     return BulbState;
