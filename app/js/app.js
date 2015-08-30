@@ -10,7 +10,7 @@ angular.module('myApp', [
   'myApp.version',
   'myApp.directives',
   'myApp.controllers',
-  'myApp.LiFXSwagger'
+  'myApp.LiFXCloud'
 ]).
 config(['$routeProvider', 
   function($routeProvider) {

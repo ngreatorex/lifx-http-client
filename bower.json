@@ -13,6 +13,7 @@
     "html5-boilerplate": "~4.3.0",
     "angular-resource": "~1.2.x",
     "angular-bootstrap": "~0.11.0",
-    "angular-i18n": "~1.2.16"
+    "angular-i18n": "~1.2.16",
+    "requirejs": "~2.1.20"
   }
 }
